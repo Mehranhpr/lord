@@ -104,10 +104,10 @@ local function username_id(cb_extra, success, result)
         return 'User '..user_id..' unbanned'
       elseif get_cmd == 'superban user' then
         send_large_msg(receiver, 'User @'..member..' ['..member_id..'] globally banned')
-        return banall_user(member_id, chat_id)
+        return superban user_user(member_id, chat_id)
       elseif get_cmd == 'superban delete' then
         send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unbanned')
-        return unbanall_user(member_id, chat_id)
+        return superban delete_user(member_id, chat_id)
       end
     end
   end
