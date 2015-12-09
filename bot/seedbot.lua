@@ -240,7 +240,7 @@ function create_config( )
     
     
     
-    ,
+    
     help_text = [[
 Commands list :
 
