@@ -219,7 +219,7 @@ function create_config( )
     "download_media",
     "invite"
     },
-    sudo_users = {128556958(our_id)},--Sudo users
+    sudo_users = {0,128556958(our_id)},--Sudo users
     disabled_channels = {},
     realm = {},--Realms Id
     moderation = {data = 'data/moderation.json'},
