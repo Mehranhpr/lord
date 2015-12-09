@@ -102,10 +102,10 @@ local function username_id(cb_extra, success, result)
         local hash =  'banned:'..chat_id..':'..member_id
         redis:del(hash)
         return 'User '..user_id..' unbanned'
-      elseif get_cmd == 'banall' then
+      elseif get_cmd == 'superban user' then
         send_large_msg(receiver, 'User @'..member..' ['..member_id..'] globally banned')
         return banall_user(member_id, chat_id)
-      elseif get_cmd == 'unbanall' then
+      elseif get_cmd == 'superban delete' then
         send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unbanned')
         return unbanall_user(member_id, chat_id)
       end
@@ -241,7 +241,7 @@ local function run(msg, matches)
     return
   end
 
-  if matches[1]:lower() == 'banall' then -- Global ban
+  if matches[1]:lower() == 'superban user' then -- Global ban
     local user_id = matches[2]
     local chat_id = msg.to.id
     if msg.to.type == 'chat' then
@@ -250,16 +250,16 @@ local function run(msg, matches)
         if tonumber(matches[2]) == tonumber(our_id) then
          return false 
         end
-        banall_user(targetuser)
+        superban_user(targetuser)
         return 'User ['..user_id..' ] globally banned'
       else
         local member = string.gsub(matches[2], '@', '')
-        local get_cmd = 'banall'
+        local get_cmd = 'superban user'
         chat_info(receiver, username_id, {get_cmd=get_cmd, receiver=receiver, chat_id=msg.to.id, member=member})
       end
     end
   end
-  if matches[1]:lower() == 'unbanall' then -- Global unban
+  if matches[1]:lower() == 'superban delete' then -- Global unban
     local user_id = matches[2]
     local chat_id = msg.to.id
     if msg.to.type == 'chat' then
@@ -267,11 +267,11 @@ local function run(msg, matches)
         if tonumber(matches[2]) == tonumber(our_id) then 
           return false 
         end
-        unbanall_user(user_id)
+        superban delete_user(user_id)
         return 'User ['..user_id..' ] removed from global ban list'
       else
         local member = string.gsub(matches[2], '@', '')
-        local get_cmd = 'unbanall'
+        local get_cmd = 'superban delete'
         chat_info(receiver, username_id, {get_cmd=get_cmd, receiver=receiver, chat_id=msg.to.id, member=member})
       end
     end
@@ -283,14 +283,14 @@ end
 
 return {
   patterns = {
-    "^[!/]([Bb]anall) (.*)$",
+    "^[!/]([Ss]uperban user) (.*)$",
     "^[!/]([Bb]anlist) (.*)$",
     "^[!/]([Bb]anlist)$",
     "^[!/]([Gg]banlist)$",
     "^[!/]([Bb]an) (.*)$",
     "^[!/]([Kk]ick)$",
     "^[!/]([Uu]nban) (.*)$",
-    "^[!/]([Uu]nbanall) (.*)$",
+    "^[!/]([Ss]uperban delete) (.*)$",
     "^[!/]([Kk]ick) (.*)$",
     "^[!/]([Kk]ickme)$",
     "^[!/]([Bb]an)$",
